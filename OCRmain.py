@@ -50,7 +50,7 @@ pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesse
 custom_config = "--psm 10 --oem 3 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
 
 image_directory = 'Spandan'
-image_name = 'REFERENCE_IMAGE7.jpg' # 'image10.jpg'
+image_name = 'image1.jpg'
 image_path = os.path.join(image_directory,image_name)
 
 img = cv2.imread(image_path)
@@ -98,8 +98,8 @@ for x,y,w,h in coords:
                    [-1, 5,-1],
                    [0, -1, 0]])
     thresh = cv2.filter2D(src=thresh, ddepth=-1, kernel=kernel)
-    thresh = cv2.erode(thresh, np.ones((5,5),np.uint8), iterations=1)
-    thresh = cv2.dilate(thresh, np.ones((5,5),np.uint8), iterations=1)
+    # thresh = cv2.erode(thresh, np.ones((5,5),np.uint8), iterations=1)
+    # thresh = cv2.dilate(thresh, np.ones((5,5),np.uint8), iterations=1)
     # Detecting the words
     hImg, wImg, _ = img0.shape
     boxes = pytesseract.image_to_data(thresh, config = custom_config)
@@ -118,9 +118,9 @@ for x,y,w,h in coords:
                     srno += [b[11]]
 
 
-    cv2.imshow('Result', img0)
+                    cv2.imshow('Result', img0)
 
-    cv2.waitKey(0) # putting a delay to the display window
+                    cv2.waitKey(0) # putting a delay to the display window
 
     cv2.destroyAllWindows()
 # if(len(srno)==1):
