@@ -82,30 +82,34 @@ for image_name in os.listdir(image_directory):
     img_small = cv2.resize(img, None, fx=0.3, fy=0.3)
     cv2.imshow('Image', img_small)
     cv2.waitKey(0)
-    # img1 = cv2.resize(img1, None, fx=0.3, fy=0.3)
+    img1 = cv2.resize(img1, None, fx=0.3, fy=0.3)
     srno = []
     for x,y,w,h in coords:
-        fx = 400/w
-        print(fx)
-        img0 = img1[y:y+h,x:x+w]
+        # fx = 400/w
+        # print(fx)
+        
+        fx = 0.3
         x, y, w, h = int(x*fx), int(y*fx), int(w*fx), int(h*fx)
+        img0 = img1[y:y+h,x:x+w]
         
-        img0 = cv2.resize(img0, None, fx=fx, fy=fx, interpolation=cv2.INTER_AREA)
-        # Preprocessing before detection
+        # img0 = cv2.resize(img0, None, fx=fx, fy=fx, interpolation=cv2.INTER_AREA)
+        # # Preprocessing before detection
         img_gray = cv2.cvtColor(img0, cv2.COLOR_BGR2GRAY)
-        ret, thresh = cv2.threshold(img_gray, Otsu(img_gray), 255, 0)
-        # cv2.imshow('Thresh',thresh)
-        # Sharpen Image
-        kernel = np.array([[0, -1, 0],
-                    [-1, 5,-1],
-                    [0, -1, 0]])
-        thresh = cv2.filter2D(src=thresh, ddepth=-1, kernel=kernel)
-        # thresh = cv2.erode(thresh, np.ones((5,5),np.uint8), iterations=1)
-        # thresh = cv2.dilate(thresh, np.ones((5,5),np.uint8), iterations=1)
-        # Detecting the words
-        hImg, wImg, _ = img0.shape
+        ret, thresh = cv2.threshold(img_gray, 200, 255, 0)
+        # # cv2.imshow('Thresh',thresh)
+        # # Sharpen Image
+        # kernel = np.array([[0, -1, 0],
+        #             [-1, 5,-1],
+        #             [0, -1, 0]])
+        # thresh = cv2.filter2D(src=thresh, ddepth=-1, kernel=kernel)
+        # # thresh = cv2.erode(thresh, np.ones((5,5),np.uint8), iterations=1)
+        # # thresh = cv2.dilate(thresh, np.ones((5,5),np.uint8), iterations=1)
+        # # Detecting the words
+        # hImg, wImg, _ = img0.shape
+        # 
+        # boxes = pytesseract.image_to_data(thresh, config = custom_config)
         boxes = pytesseract.image_to_data(thresh, config = custom_config)
-        
+
         for x, b in enumerate(boxes.splitlines()):
             if x != 0:
                 b = b.split()
